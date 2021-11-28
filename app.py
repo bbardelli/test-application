@@ -2,6 +2,7 @@ import cherrypy
 import socket
 import boto3
 import requests
+import os
 
 '''funtion to get current region'''
 def get_region():
@@ -25,7 +26,10 @@ class HelloWorld(object):
     def index(self):
         output_text = "Hostname:" + show_server_hostname() +"<br>\n"
         output_text += "Items:" + str(get_all_items())        
+        output_text += "<br>\n Env-Vars: <br>\n"
+        output_text += "<br>\n".join([x + "=" + os.environ[x] for x in os.environ])
         return output_text
+
 
 cherrypy.server.socket_host = '0.0.0.0'
 cherrypy.quickstart(HelloWorld())
