@@ -16,7 +16,7 @@ def show_server_hostname():
 '''Get all items from dynamodb table'''
 def get_all_items(table_name):
     dynamodb = boto3.resource('dynamodb',region_name=get_region())
-    table = dynamodb.Table(table_name)
+    table = dynamodb.Table('application_table')
     response = table.scan()
     return response['Items']
 
@@ -24,14 +24,13 @@ def get_table_name():
     with open("/var/application/config.db") as f:
         s = f.read()
     
-    return s.split("/")[-1]
-
+    return s.split("/")[-1].replace("\n","").replace(" ","")
 class HelloWorld(object):
     @cherrypy.expose
     def index(self):
         output_text = "Hostname:" + show_server_hostname() +"<br>\n"       
         output_text += "Tablename:" + get_table_name() + "<br>\n"
-        output_text += "Items:" + str(get_all_items(get_table_name()))        
+        output_text += "Items:" + str(get_all_items())        
         return output_text
 
 
