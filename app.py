@@ -2,7 +2,6 @@ import cherrypy
 import socket
 import boto3
 import requests
-import os
 
 '''funtion to get current region'''
 def get_region():
@@ -21,13 +20,17 @@ def get_all_items():
     response = table.scan()
     return response['Items']
 
+def get_table_name():
+    with open("config.db") as f:
+        s = f.read()
+    return s
+
 class HelloWorld(object):
     @cherrypy.expose
     def index(self):
-        output_text = "Hostname:" + show_server_hostname() +"<br>\n"
+        output_text = "Hostname:" + show_server_hostname() +"<br>\n"       
+        output_text += "Tablename:" + get_table_name() + "<br>\n"
         output_text += "Items:" + str(get_all_items())        
-        output_text += "<br>\n Env-Vars: <br>\n"
-        output_text += "<br>\n".join([x + "=" + os.environ[x] for x in os.environ])
         return output_text
 
 
