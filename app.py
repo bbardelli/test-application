@@ -12,4 +12,5 @@ class HelloWorld(object):
     def index(self):
         return show_server_hostname()
 
+cherrypy.server.socket_host = '0.0.0.0'
 cherrypy.quickstart(HelloWorld())
