@@ -30,6 +30,7 @@ class HelloWorld(object):
     def index(self):
         output_text = "Hostname:" + show_server_hostname() +"<br>\n"       
         output_text += "Tablename:" + get_table_name() + "<br>\n"
+        output_text += "Region:" + get_region() + "<br>\n"
         output_text += "Items:" + str(get_all_items(get_table_name()))        
         return output_text
 
